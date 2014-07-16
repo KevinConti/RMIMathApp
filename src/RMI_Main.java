@@ -6,7 +6,7 @@ import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-
+//sdfdsj;dklfjds;
 public class RMI_Main extends GraphicsProgram {
 
 	/** Width and height of application window in pixels */
