@@ -6,7 +6,7 @@ import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-//sdfdsj;dklfjds;
+
 public class RMI_Main extends GraphicsProgram {
 
 	/** Width and height of application window in pixels */
@@ -240,7 +240,9 @@ public class RMI_Main extends GraphicsProgram {
 	{
 		createOperatorCodes();
 		int firstStepNumber = createFirstStep();
-//		int secondStepNumber = createSecondStep();
+		println("operationLabelTop is "+operationLabelTop.getLabel());
+		int secondStepNumber = createSecondStep();
+		println("operationlabelBottom is"+operationLabelBottom.getLabel());
 //		createWrongAnswers(firstStepNumber, secondStepNumber);
 
 	}
@@ -287,6 +289,32 @@ public class RMI_Main extends GraphicsProgram {
 		case 2: numberCreated = createSubtractionStep();
 		break;
 		case 3: numberCreated = createMultiplicationStep(FIRST_STEP_MAX);
+		break;
+		case 4: numberCreated = createDivisionStep();
+		break;
+		default: println("Something went horribly wrong");
+		}
+		
+		return numberCreated;
+	}
+	/**
+	 * Creates the first step to be performed on the questionNumber
+	 * using the operatorBottom code created in createOperatorCodes
+	 * @return numberCreated number that will be returned
+	 */
+	private int createSecondStep()
+	{
+		//Number that will be used in the given step
+		int numberCreated = 0;
+
+		//Switch statement for 1st-step based on what operator was rolled (1=addition, 2=sub, 3= mult)
+		switch(operatorBottom)
+		{
+		case 1: numberCreated = createAdditionStep(SECOND_STEP_MAX); //init numberCreated 
+		break;
+		case 2: numberCreated = createSubtractionStep();
+		break;
+		case 3: numberCreated = createMultiplicationStep(SECOND_STEP_MAX);
 		break;
 		case 4: numberCreated = createDivisionStep();
 		break;
@@ -434,7 +462,7 @@ public class RMI_Main extends GraphicsProgram {
 		break;
 		}
 
-		//Assign uperationLabelTop
+		//Assign operationLabelTop
 		operationLabelTop = new GLabel(operationTypeString + numberCreated);
 	}
 	/**Instance of random generator for creating all random events*/
