@@ -59,7 +59,7 @@ public class RMI_Main extends GraphicsProgram {
 		 * 1= 2/1 2= 4/2 3= 1/4 4= 4/4 5 = 1/2 6 = 3/4 7 = 3/2 8= 3/1 9 = 4/4
 		 * 
 		 */
-		rgen.setSeed(1);
+//		rgen.setSeed(1);
 		setupGame();
 		waitForClick();
 		remove(welcomeLabel);
@@ -280,17 +280,20 @@ public class RMI_Main extends GraphicsProgram {
 	{
 		//Number that will be used in the given step
 		int numberCreated = 0;
-
+		
+		//Number to determine what step it is (double passed to updateOperationLabel())
+		int stepNumber = 1;
+		
 		//Switch statement for 1st-step based on what operator was rolled (1=addition, 2=sub, 3= mult)
 		switch(operatorTop)
 		{
-		case 1: numberCreated = createAdditionStep(FIRST_STEP_MAX); //init numberCreated 
+		case 1: numberCreated = createAdditionStep(FIRST_STEP_MAX, stepNumber); //init numberCreated 
 		break;
-		case 2: numberCreated = createSubtractionStep();
+		case 2: numberCreated = createSubtractionStep(stepNumber);
 		break;
-		case 3: numberCreated = createMultiplicationStep(FIRST_STEP_MAX);
+		case 3: numberCreated = createMultiplicationStep(FIRST_STEP_MAX, stepNumber);
 		break;
-		case 4: numberCreated = createDivisionStep();
+		case 4: numberCreated = createDivisionStep(stepNumber);
 		break;
 		default: println("Something went horribly wrong");
 		}
@@ -307,16 +310,19 @@ public class RMI_Main extends GraphicsProgram {
 		//Number that will be used in the given step
 		int numberCreated = 0;
 
+		//Number to determine what step it is (double passed to updateOperationLabel())
+		int stepNumber = 2;
+		
 		//Switch statement for 1st-step based on what operator was rolled (1=addition, 2=sub, 3= mult)
 		switch(operatorBottom)
 		{
-		case 1: numberCreated = createAdditionStep(SECOND_STEP_MAX); //init numberCreated 
+		case 1: numberCreated = createAdditionStep(SECOND_STEP_MAX, stepNumber); //init numberCreated 
 		break;
-		case 2: numberCreated = createSubtractionStep();
+		case 2: numberCreated = createSubtractionStep(stepNumber);
 		break;
-		case 3: numberCreated = createMultiplicationStep(SECOND_STEP_MAX);
+		case 3: numberCreated = createMultiplicationStep(SECOND_STEP_MAX, stepNumber);
 		break;
-		case 4: numberCreated = createDivisionStep();
+		case 4: numberCreated = createDivisionStep(stepNumber);
 		break;
 		default: println("Something went horribly wrong");
 		}
@@ -325,16 +331,18 @@ public class RMI_Main extends GraphicsProgram {
 	}
 
 	/**This method creates an addition step for one part of the two step equation
+	 * @param max the maximum amount that is currentValue is allowed to become after this step
+	 * @param stepNumber the current step number in the 2-step problem, to be passed to updateOperationLabel
 	 * @return numberToAdd number that will be added to current value
 	 * */
-	private int createAdditionStep(int max)
+	private int createAdditionStep(int max, int stepNumber)
 	{
 		int rgenMax = max - currentValue;
 		int numberToAdd; 
 		//Cop-out method that prevents an error if the number generated can only be <0
 		if(rgenMax <= 0)
 		{
-			numberToAdd = createSubtractionStep();
+			numberToAdd = createSubtractionStep(stepNumber);
 			println("Addition cop-out occured!");
 		}
 		else //If the addition step is viable
@@ -343,14 +351,14 @@ public class RMI_Main extends GraphicsProgram {
 			currentValue += numberToAdd; //update current value
 		
 			//This updates the formula label so the user knows what to do
-			updateOperationLabelTop(1, numberToAdd);
+			updateOperationLabel(1, numberToAdd, stepNumber);
 		}
 		return numberToAdd;
 	}
 	/**This method creates an addition step for one part of the two step equation
 	 * @return numberToAdd number that will be added to current value
 	 * */
-	private int createSubtractionStep()
+	private int createSubtractionStep(int stepNumber)
 	{
 		int rgenMax = currentValue - MINIMUM;
 		int numberToSubtract;
@@ -358,7 +366,7 @@ public class RMI_Main extends GraphicsProgram {
 		//Cop-out method: multiplies if subtraction isn't viable
 		if(rgenMax <= 0)
 		{
-			numberToSubtract = createMultiplicationStep(FIRST_STEP_MAX);
+			numberToSubtract = createMultiplicationStep(FIRST_STEP_MAX, stepNumber);
 			println("Subtraction cop-out occured!");
 		}
 		else
@@ -367,7 +375,7 @@ public class RMI_Main extends GraphicsProgram {
 			currentValue -= numberToSubtract; //update current value
 
 			//This updates the formula label so the user knows what to do
-			updateOperationLabelTop(2, numberToSubtract);
+			updateOperationLabel(2, numberToSubtract, stepNumber);
 		}
 		return numberToSubtract;
 	}
@@ -376,7 +384,7 @@ public class RMI_Main extends GraphicsProgram {
 	 * @param max The maximum amount for this step to reach
 	 * @return numberToAdd number that will be added to current value
 	 */
-	private int createMultiplicationStep(int max)
+	private int createMultiplicationStep(int max, int stepNumber)
 	{
 		/*
 		 * Logic: rgenMax * currentvalue = 200 -> rgenMax = 200/currentValue
@@ -387,7 +395,7 @@ public class RMI_Main extends GraphicsProgram {
 		//If multiplication is inpossible, does division instead
 		if(rgenMax >= 1)
 		{
-			numberToMultiply = createDivisionStep();
+			numberToMultiply = createDivisionStep(stepNumber);
 			println("Multiplication cop-out occured!");
 		}
 		else
@@ -396,11 +404,11 @@ public class RMI_Main extends GraphicsProgram {
 			currentValue *= numberToMultiply;
 
 			//This updates the formula label so the user knows what to do
-			updateOperationLabelTop(3, numberToMultiply);
+			updateOperationLabel(3, numberToMultiply, stepNumber);
 		}
 		return numberToMultiply;
 	}
-	private int createDivisionStep()
+	private int createDivisionStep(int stepNumber)
 	{
 		/*
 		 * Rules:
@@ -426,20 +434,22 @@ public class RMI_Main extends GraphicsProgram {
 			}
 		}
 
-		int numberToDivide = factors.get(rgen.nextInt(1, (factors.size() -1)));
+		int numberToDivide = 0;
 		
 		//Cop out if the number is prime or division isn't viable
-		if(factors.size() == 2)
+		if(factors.size() == 0)
 		{
-			numberToDivide = createAdditionStep(FIRST_STEP_MAX);
+			numberToDivide = createAdditionStep(FIRST_STEP_MAX, stepNumber);
 			println("Division cop-out occured!");
 		}
 		else
 		{
+			numberToDivide = factors.get(rgen.nextInt(0, (factors.size() -1)));
+			
 			currentValue /= numberToDivide;
 
 			//This updates the formula label so the user knows what to do
-			updateOperationLabelTop(4, numberToDivide);
+			updateOperationLabel(4, numberToDivide, stepNumber);
 		}
 		return numberToDivide;
 	}
@@ -447,7 +457,7 @@ public class RMI_Main extends GraphicsProgram {
 	 * pre: currentValue has been updated
 	 * @param operationType 
 	 */
-	private void updateOperationLabelTop(int operationType, int numberCreated)
+	private void updateOperationLabel(int operationType, int numberCreated, int stepNumber)
 	{
 		String operationTypeString = "";
 		switch(operationType)
@@ -462,8 +472,13 @@ public class RMI_Main extends GraphicsProgram {
 		break;
 		}
 
-		//Assign operationLabelTop
-		operationLabelTop = new GLabel(operationTypeString + numberCreated);
+		//Assign operationLabels
+		switch(stepNumber)
+		{
+		case 1: operationLabelTop = new GLabel(operationTypeString + numberCreated);
+		break;
+		case 2: operationLabelBottom = new GLabel(operationTypeString + numberCreated);
+		}
 	}
 	/**Instance of random generator for creating all random events*/
 	RandomGenerator rgen = new RandomGenerator().getInstance();
