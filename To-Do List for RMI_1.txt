@@ -1,7 +1,5 @@
 To-Do List for RMI_1
-1) Change createFirstStep() and createSecondStep() to return the number applied to the question 
-	number instead of the currentValue after its respective step (so createWrongAnswers() gets
-	the data it needs)
+
 Cop outs should change operatorTop and operatorBottom
 2) Change setupLabels() to setup ALL GLabels (Not corresponding GPoints necessarily)
 
