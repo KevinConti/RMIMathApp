@@ -393,7 +393,7 @@ public class RMI_Main extends GraphicsProgram {
 		int numberToMultiply;
 		
 		//If multiplication is inpossible, does division instead
-		if(rgenMax >= 1)
+		if(rgenMax<= 1)
 		{
 			numberToMultiply = createDivisionStep(stepNumber);
 			println("Multiplication cop-out occured!");
