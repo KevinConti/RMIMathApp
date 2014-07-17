@@ -1,7 +1,6 @@
 To-Do List for RMI_1
 
-Testing my stuff
-1) Make it so that createAdditionStep() and createMultiplicationStep do not take params and just use the constants
+Cop outs should change operatorTop and operatorBottom
 2) Change setupLabels() to setup ALL GLabels (Not corresponding GPoints necessarily)
 
-3) Thin ivars (do at end)
+3) Thin ivars (do at end) (possible through another class?)
