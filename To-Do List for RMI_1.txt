@@ -1,6 +1,6 @@
 To-Do List for RMI_1
 
-Cop outs should change operatorTop and operatorBottom
+**DONE**Cop outs should change operatorTop and operatorBottom
 2) Change setupLabels() to setup ALL GLabels (Not corresponding GPoints necessarily)
 
 3) Thin ivars (do at end) (possible through another class?)

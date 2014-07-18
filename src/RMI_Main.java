@@ -342,6 +342,16 @@ public class RMI_Main extends GraphicsProgram {
 		//Cop-out method that prevents an error if the number generated can only be <0
 		if(rgenMax <= 0)
 		{
+			//Update operatorTop or bottom
+			if(stepNumber == 1)
+			{
+				operatorTop = 2;
+			}
+			else
+			{
+				operatorBottom = 2;
+			}
+			
 			numberToAdd = createSubtractionStep(stepNumber);
 			println("Addition cop-out occured!");
 		}
@@ -366,6 +376,16 @@ public class RMI_Main extends GraphicsProgram {
 		//Cop-out method: multiplies if subtraction isn't viable
 		if(rgenMax <= 0)
 		{
+			//Update operatorTop or bottom
+			if(stepNumber == 1)
+			{
+				operatorTop = 3;
+			}
+			else
+			{
+				operatorBottom = 3;
+			}
+			
 			numberToSubtract = createMultiplicationStep(FIRST_STEP_MAX, stepNumber);
 			println("Subtraction cop-out occured!");
 		}
@@ -395,6 +415,16 @@ public class RMI_Main extends GraphicsProgram {
 		//If multiplication is inpossible, does division instead
 		if(rgenMax<= 1)
 		{
+			//Update operatorTop or bottom
+			if(stepNumber == 1)
+			{
+				operatorTop = 4;
+			}
+			else
+			{
+				operatorBottom = 4;
+			}
+			
 			numberToMultiply = createDivisionStep(stepNumber);
 			println("Multiplication cop-out occured!");
 		}
@@ -439,6 +469,16 @@ public class RMI_Main extends GraphicsProgram {
 		//Cop out if the number is prime or division isn't viable
 		if(factors.size() == 0)
 		{
+			//Update operatorTop or bottom
+			if(stepNumber == 1)
+			{
+				operatorTop = 1;
+			}
+			else
+			{
+				operatorBottom = 1;
+			}
+			
 			numberToDivide = createAdditionStep(FIRST_STEP_MAX, stepNumber);
 			println("Division cop-out occured!");
 		}
